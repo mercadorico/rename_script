@@ -1,9 +1,10 @@
 
+
 #HEADER
 BLOCK                 tb_block_name
-TESTBENCH             tb_name
-BATCH_SIM_DIR         /user/server01/foundry/tech_node/folder/ip_ckt/simulations/ip/technology-code/release_ver/design/sim_data/tb_block_name/tb_name
-*BATCH_SIM_COPY         /user/server01/foundry/tech_node/folder/ip_ckt/simulations/ip/technology-code/release_ver/design/sim_data/tb_block_name/tb_name
+TESTBENCH             tb_name2
+BATCH_SIM_DIR         /user/server01/foundry/tech_node/folder/ip_ckt/simulations/ip/technology-code/release_ver/design/sim_data/tb_block_name/tb_name2
+*BATCH_SIM_COPY         /user/server01/foundry/tech_node/folder/ip_ckt/simulations/ip/technology-code/release_ver/design/sim_data/tb_block_name/tb_name2
 
 #SIMULATION
 SPICE_COMMAND_FILE    input_netlist.sp
