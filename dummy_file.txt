@@ -1,0 +1,26 @@
+
+#HEADER
+BLOCK                 tb_block_name
+TESTBENCH             tb_name
+BATCH_SIM_DIR         /user/server01/foundry/tech_node/folder/ip_ckt/simulations/ip/technology-code/release_ver/design/sim_data/tb_block_name/tb_name
+
+#SIMULATION
+SPICE_COMMAND_FILE    input_netlist.sp
+CORNERS_LIST_FILE     corners_list.corners
+NETLIST               ckt_netlist_sch.sp
+
+INCLUDE               constants_file.inc
+INCLUDE               options_file.inc
+
+#GRID CONTROL
+SERIES_SIM            1
+GRID_PROJECT          normal
+QSUB_LABEL            sample_tb
+GRID_OPTIONS          -X fast
+LOCAL_SIM             0
+SIMULATOR             hspice
+SIMULATOR OPTIONS     -xx 2
+
+#REPORTING
+MEASURE_CONFIG_FILE   measure/sim_parameters.measure
+NUM_DECIMALS          4
