@@ -12,6 +12,9 @@ else
   dir=""
 fi
 
+files=$(cat $INPUT_FILE | tr '\n' ' ')
+echo $files
+exit 0
 # Loop through each file listed in the input file
 for FILENAME in $(cat "$INPUT_FILE"); do
   # Check if the file exists
@@ -21,16 +24,15 @@ for FILENAME in $(cat "$INPUT_FILE"); do
   fi
   
   #Identify line number of input string
-  LINE_NUMBER=$(grep -n -F -w "$input_string" FILENAME | cut -d : -f 1)
+  LINE_NUMBER=$(grep -n -F -w "$input_string" $FILENAME | cut -d : -f 1)
+  #echo $LINE_NUMBER
 
-  # Count the whitespace characters
-  count_space=$(expr "$input_string" : '^[^[:space:]]*[[:space:]]*\(.*\)') 
-  
   # Get the new line from the filename
   NEW_LINE=$(basename "$FILENAME" | cut -d '.' -f 1)
   
   # Replace the line
-  sed -i "${LINE_NUMBER}s/.*/$("${input_string}${count_space}${dir}${NEW_LINE}")/" "$FILENAME"
-  
+  sed -i "$(echo $LINE_NUMBER)s:.*:$(echo "${input_string}         ${dir}${NEW_LINE}"):" $FILENAME
+
   echo "Replaced line in $FILENAME."
+#  echo $FILENAME
 done
