@@ -1,20 +1,30 @@
 #!/bin/bash
 
-# Set the input file path and line number
-INPUT_FILE="list_of_files.txt"
-echo "Please provide string pattern to identify line to replace:"
-read input_string
+# Set the TESTBENCH and BATCH_SIM_DIR similar to bbSIm config name.
+INPUT_FILE="list_of_files"
 
-if [ $input_string == "BATCH_SIM_DIR" ]
-then
-  dir="/user/server01/foundry/tech_node/folder/ip_ckt/simulations/ip/technology-code/release_ver/design/sim_data/tb_block_name/"
-else
-  dir=""
+# Check if the file exists
+if [[ ! -f "$INPUT_FILE" ]]; then
+  echo "Error: File $INPUT_FILE does not exist."
+  exit 1
 fi
 
-files=$(cat $INPUT_FILE | tr '\n' ' ')
-echo $files
-exit 0
+echo "Please input BSD for BATCH_SIM_DIR or TB for TESTBENCH"
+read input_string
+
+if [ $input_string == "BSD" ]
+then
+  text_form="BATCH_SIM_DIR"
+  dir="/remote/us01sgnfs00587/intel/intel18a/ifs/gpio_18_12/sims_bbsim/gpio/f533-gpio-int18a-1.2v/rel1.00/design/batch_sim/dwc_gpio18_bd_sch/"
+elif [ $input_string == "TB" ]
+then
+  text_form="TESTBENCH"
+  dir=""
+else
+  echo "Error: Invalid Input."
+  exit 1
+fi
+
 # Loop through each file listed in the input file
 for FILENAME in $(cat "$INPUT_FILE"); do
   # Check if the file exists
@@ -24,15 +34,15 @@ for FILENAME in $(cat "$INPUT_FILE"); do
   fi
   
   #Identify line number of input string
-  LINE_NUMBER=$(grep -n -F -w "$input_string" $FILENAME | cut -d : -f 1)
-  #echo $LINE_NUMBER
+  LINE_NUMBER=$(grep -n -F -w "$text_form" $FILENAME | cut -d : -f 1)
+
 
   # Get the new line from the filename
   NEW_LINE=$(basename "$FILENAME" | cut -d '.' -f 1)
   
   # Replace the line
-  sed -i "$(echo $LINE_NUMBER)s:.*:$(echo "${input_string}         ${dir}${NEW_LINE}"):" $FILENAME
+  sed -i "$(echo $LINE_NUMBER)s:.*:$(echo "${text_form}\t\t${dir}${NEW_LINE}"):" $FILENAME
 
-  echo "Replaced line in $FILENAME."
-#  echo $FILENAME
+  echo "Replaced line in $text_form $FILENAME."
+
 done
