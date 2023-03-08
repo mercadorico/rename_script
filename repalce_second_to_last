@@ -1,0 +1,1 @@
+sed -i 's/\(.*[^[:space:]]\)\([^[:space:]]\)[[:space:]]*$/\1X/' file.txt
